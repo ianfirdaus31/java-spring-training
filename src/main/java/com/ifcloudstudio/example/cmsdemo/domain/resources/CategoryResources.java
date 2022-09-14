@@ -2,10 +2,7 @@ package com.ifcloudstudio.example.cmsdemo.domain.resources;
 
 import com.ifcloudstudio.example.cmsdemo.domain.models.Category;
 import com.ifcloudstudio.example.cmsdemo.domain.requests.CategoryRequest;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,10 +35,13 @@ public class CategoryResources {
     }
 
     @PostMapping
-    @ApiOperation(value = "List categories",notes = "List all categories")
+    @ApiOperation(value = "Post category", notes = "Save data category")
     @ApiResponses(value = {
         @ApiResponse(code = 200,message = "Categories found"),
         @ApiResponse(code = 404,message = "Category not found")
+    })
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "name", value = "Object to be created", required = true, dataType = "string", paramType = "body")
     })
     public ResponseEntity<Category> newCategory(CategoryRequest category) {
         return new ResponseEntity<>(new Category(), HttpStatus.CREATED);
@@ -49,7 +49,7 @@ public class CategoryResources {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "Remove category",notes = "It permits to remove a category")
+    @ApiOperation(value = "Remove category", notes = "It permits to remove a category")
     @ApiResponses(value = {
         @ApiResponse(code = 200,message = "Category removed successfully"),
         @ApiResponse(code = 404,message = "Category not found")
